@@ -187,6 +187,11 @@ class SocksServer {
 						} else {
 							return end(RFC_1928_REPLIES.ADDRESS_TYPE_NOT_SUPPORTED, args);
 						}
+					
+						let beforeConnect = self.options.beforeConnect;
+						if (typeof beforeConnect === "function") {
+							args.dst = beforeConnect(args.dst);
+						}
 					})
 					.word16bu('dst.port')
 					.tap((args) => {
